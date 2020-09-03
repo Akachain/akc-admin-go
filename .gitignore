@@ -1,0 +1,10 @@
+go.sum
+wallet
+.idea/*
+configs/connection-*
+configs/network*
+configs/*artifacts*
+keystore
+artifacts
+.vscode
+.idea

@@ -1,0 +1,15 @@
+networks:
+  harisato:
+    path: /Users/lvh/akachain/akc-admin-go/configs/networks/harisato.yaml
+contexts:
+  harisato:
+    network: harisato
+    organization: harisato
+    user: admin-harisato
+    channel: akcchannel
+    orderers:
+    - orderer0-orderer.harisato
+    peers:
+    - peer0-harisato.harisato
+    - peer1-harisato.harisato
+current-context: harisato
