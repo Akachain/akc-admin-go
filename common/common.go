@@ -43,3 +43,43 @@ func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 
 	return context, resourceManagement, nil
 }
+
+// func LoadFabricSDK() (*fabsdk.FabricSDK, error) {
+// configPath := filepath.Join("configs", "networks", "harisato.yaml")
+// backend, err := config.FromFile(configPath)()
+// if err != nil {
+// 	return nil, err
+// }
+
+// configProvider := func() ([]core.ConfigBackend, error) {
+// 	return backend, nil
+// }
+
+// sdk, err := fabsdk.New(configProvider)
+// if err != nil {
+// 	return nil, err
+// }
+// }
+
+func LoadFabricSDK() (fabric.SDK, error) {
+	var err error
+	var config *environment.Config
+	config = environment.NewConfig()
+
+	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
+	if err != nil {
+		return nil, err
+	}
+
+	factory, err := fabric.NewFactory(config)
+	if err != nil {
+		return nil, err
+	}
+
+	sdk, err := factory.SDK()
+	if err != nil {
+		return nil, err
+	}
+
+	return sdk, nil
+}
