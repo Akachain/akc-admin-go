@@ -25,9 +25,13 @@ func RegisterUser(c *gin.Context) {
 	c.BindJSON(&regRequest)
 
 	sdk, err := common.LoadFabricSDK()
+	if err != nil {
+		c.JSON(200, common.RequestResponse(false, err.Error()))
+		return
+	}
 
 	ctxProvider := sdk.Context()
-	msp, err := mspClient.New(ctxProvider)
+	msp, _ := mspClient.New(ctxProvider)
 	enrollSecret, err := msp.Register(&mspClient.RegistrationRequest{
 		Name:        regRequest.UserName,
 		Type:        regRequest.Type,
@@ -74,10 +78,13 @@ func RevokeUser(c *gin.Context) {
 	c.BindJSON(&revokeRequest)
 
 	sdk, err := common.LoadFabricSDK()
+	if err != nil {
+		c.JSON(200, common.RequestResponse(false, err.Error()))
+		return
+	}
 
 	ctxProvider := sdk.Context()
-	msp, err := mspClient.New(ctxProvider)
-
+	msp, _ := mspClient.New(ctxProvider)
 	revokeResponse, err := msp.Revoke(&mspClient.RevocationRequest{
 		Name:   revokeRequest.UserName,
 		GenCRL: true,
@@ -111,9 +118,13 @@ func EnrollUser(c *gin.Context) {
 	c.BindJSON(&enrollUser)
 
 	sdk, err := common.LoadFabricSDK()
+	if err != nil {
+		c.JSON(200, common.RequestResponse(false, err.Error()))
+		return
+	}
 
 	ctxProvider := sdk.Context()
-	msp, err := mspClient.New(ctxProvider)
+	msp, _ := mspClient.New(ctxProvider)
 
 	// Enroll the new user
 	err = msp.Enroll(enrollUser.UserName, mspClient.WithSecret(enrollUser.Secret))
