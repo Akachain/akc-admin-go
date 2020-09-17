@@ -16,6 +16,7 @@ func setupRouter() *gin.Engine {
 	{
 		client.POST("/chaincode/install", chaincode.InstallChaincode)
 		client.POST("/chaincode/approve", chaincode.ApproveChaincode)
+		client.POST("/chaincode/commit", chaincode.CommitChaincode)
 		client.POST("/channel/create", channel.CreateChannel)
 		client.POST("/msp/registerUser", msp.RegisterUser)
 		client.POST("/msp/revokeUser", msp.RevokeUser)
