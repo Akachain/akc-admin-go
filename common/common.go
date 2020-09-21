@@ -21,7 +21,6 @@ func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 	config = environment.NewConfig()
 
 	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
-
 	if err != nil {
 		return nil, nil, err
 	}
@@ -43,6 +42,31 @@ func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 
 	return context, resourceManagement, nil
 }
+
+//func GetResourcesByOrg(orgName string) (*environment.Context, fabric.ResourceManagement, error) {
+//	var err error
+//	var config *environment.Config
+//	config = environment.NewConfig()
+//
+//	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
+//	if err != nil {
+//		return nil, nil, err
+//	}
+//
+//	factory, err := fabric.NewFactory(config)
+//	if err != nil {
+//		return nil, nil, err
+//	}
+//
+//	resourceManagement, err := factory.ResourceManagement()
+//	if err != nil {
+//		return nil, nil, err
+//	}
+//
+//	context := config.Contexts[orgName]
+//
+//	return context, resourceManagement, nil
+//}
 
 // func LoadFabricSDK() (*fabsdk.FabricSDK, error) {
 // configPath := filepath.Join("configs", "networks", "harisato.yaml")
