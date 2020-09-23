@@ -15,6 +15,13 @@ func RequestResponse(success bool, message string) gin.H {
 	}
 }
 
+func RequestResponseData(success bool, data string) gin.H {
+	return gin.H{
+		"success": success,
+		"data": data,
+	}
+}
+
 func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 	var err error
 	var config *environment.Config

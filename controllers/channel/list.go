@@ -42,11 +42,15 @@ func ListChannel(c *gin.Context) {
 		return
 	}
 
-	var listChannels []string
-	for _, channel := range resp.Channels {
-		listChannels = append(listChannels, channel.ChannelId)
+	type DataResponse struct {
+		Channels []string
 	}
 
-	res, _ := json.Marshal(listChannels)
-	c.JSON(200, common.RequestResponse(true, string(res)))
+	var data DataResponse
+	for _, channel := range resp.Channels {
+		data.Channels = append(data.Channels, channel.ChannelId)
+	}
+
+	res, _ := json.Marshal(data)
+	c.JSON(200, common.RequestResponseData(true, string(res)))
 }
