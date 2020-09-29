@@ -19,7 +19,7 @@ import (
 )
 
 type ChaincodeRequest struct {
-	Orgname          string `json:"orgname"`
+	OrgName          string `json:"orgName"`
 	ChannelName      string `json:"channelName"`
 	ChaincodeId      string `json:"chaincodeId"`
 	ChaincodeVersion string `json:"chaincodeVersion"`
