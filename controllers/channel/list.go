@@ -19,7 +19,7 @@ func ListChannel(c *gin.Context) {
 	c.BindJSON(&listRequest)
 
 	// Load client context
-	context, resourceManagement, err := common.GetResources()
+	context, resourceManagement, err := common.GetResourcesByOrg(listRequest.OrgName)
 	if err != nil {
 		c.JSON(200, common.RequestResponse(false, err.Error()))
 		return

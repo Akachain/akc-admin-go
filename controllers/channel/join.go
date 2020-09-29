@@ -9,7 +9,7 @@ import (
 )
 
 type JoinChannelRequest struct {
-	Orgname     string `json:"orgName"`
+	OrgName     string `json:"orgName"`
 	Peer        string `json:"peer"`
 	ChannelName string `json:"channelName"`
 }
