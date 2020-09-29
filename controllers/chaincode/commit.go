@@ -13,15 +13,16 @@ import (
 )
 
 type CommitRequest struct {
-	ChaincodeId         string `json:"chaincodeId"`
-	ChaincodeVersion    string `json:"chaincodeVersion"`
-	SignaturePolicy     string `json:"signaturePolicy"`
-	ChannelConfigPolicy string `json:"channelConfigPolicy"`
-	CollectionsConfig   string `json:"collectionsConfig"`
-	Sequence            string `json:"sequence"`
-	InitRequired        bool   `json:"initRequired"`
-	EndorsementPlugin   string `json:"endorsementPlugin"`
-	ValidationPlugin    string `json:"validationPlugin"`
+	ChaincodeId         string   `json:"chaincodeId"`
+	ChaincodeVersion    string   `json:"chaincodeVersion"`
+	SignaturePolicy     string   `json:"signaturePolicy"`
+	ChannelConfigPolicy string   `json:"channelConfigPolicy"`
+	CollectionsConfig   string   `json:"collectionsConfig"`
+	Sequence            string   `json:"sequence"`
+	InitRequired        bool     `json:"initRequired"`
+	EndorsementPlugin   string   `json:"endorsementPlugin"`
+	ValidationPlugin    string   `json:"validationPlugin"`
+	Organizations       []string `json:"orgs"`
 }
 
 func CommitChaincode(c *gin.Context) {
@@ -31,8 +32,15 @@ func CommitChaincode(c *gin.Context) {
 	var approveRequest CommitRequest
 	c.BindJSON(&approveRequest)
 
-	// Load client context
-	context, resourceManagement, err := common.GetResources()
+	// Load client resource
+	currentContext, resourceManagement, err := common.GetResources()
+	if err != nil {
+		c.JSON(200, common.RequestResponse(false, err.Error()))
+		return
+	}
+
+	// Init new config to get all context of org
+	configs, err := common.InitConfig()
 	if err != nil {
 		c.JSON(200, common.RequestResponse(false, err.Error()))
 		return
@@ -68,12 +76,24 @@ func CommitChaincode(c *gin.Context) {
 		ValidationPlugin:    approveRequest.ValidationPlugin,
 	}
 
+	var peers []string
+	if len(approveRequest.Organizations) == 0 {
+		msg = "'orgs' is required field"
+		c.JSON(200, common.RequestResponse(false, msg))
+		return
+	}
+
+	for _, org := range approveRequest.Organizations {
+		context := configs.Contexts[org]
+		peers = append(peers, context.Peers...)
+	}
+
 	options := []resmgmt.RequestOption{
-		resmgmt.WithTargetEndpoints(context.Peers...),
+		resmgmt.WithTargetEndpoints(peers...),
 		resmgmt.WithRetry(retry.DefaultResMgmtOpts),
 	}
 
-	if _, err := resourceManagement.LifecycleCommitCC(context.Channel, req, options...); err != nil {
+	if _, err := resourceManagement.LifecycleCommitCC(currentContext.Channel, req, options...); err != nil {
 		c.JSON(200, common.RequestResponse(false, err.Error()))
 		return
 	}

@@ -15,7 +15,7 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/common/errors/retry"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fab/ccpackager/lifecycle"
 	lifecyclepkg "github.com/hyperledger/fabric-sdk-go/pkg/fab/ccpackager/lifecycle"
-	// mspClient "github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
+	// mspClient "github.com/hyperledger/fabric-sdk-go/internal/client/msp"
 )
 
 type ChaincodeRequest struct {
@@ -41,7 +41,7 @@ func InstallChaincode(c *gin.Context) {
 	adminGoPath := filepath.Join(projectPath, "artifacts")
 
 	// Package chaincode
-	// pkg, err := gopackager.NewCCPackage(chaincodeRequest.ChaincodePath, adminGoPath)
+	// internal, err := gopackager.NewCCPackage(chaincodeRequest.ChaincodePath, adminGoPath)
 	// if err != nil {
 	// 	c.JSON(200, common.RequestResponse(false, err.Error()))
 	// 	return

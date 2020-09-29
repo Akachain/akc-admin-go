@@ -3,9 +3,9 @@ package common
 import (
 	"path/filepath"
 
+	"github.com/Akachain/akc-admin-go/internal/environment"
+	"github.com/Akachain/akc-admin-go/internal/fabric"
 	"github.com/gin-gonic/gin"
-	"github.com/hyperledger/fabric-cli/pkg/environment"
-	"github.com/hyperledger/fabric-cli/pkg/fabric"
 )
 
 func RequestResponse(success bool, message string) gin.H {
@@ -18,21 +18,19 @@ func RequestResponse(success bool, message string) gin.H {
 func RequestResponseData(success bool, data string) gin.H {
 	return gin.H{
 		"success": success,
-		"data": data,
+		"data":    data,
 	}
 }
 
 func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 	var err error
-	var config *environment.Config
-	config = environment.NewConfig()
 
-	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
+	config, err := InitConfig()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	factory, err := fabric.NewFactory(config)
+	factory, err := fabric.NewFactoryDefault(config)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -50,49 +48,7 @@ func GetResources() (*environment.Context, fabric.ResourceManagement, error) {
 	return context, resourceManagement, nil
 }
 
-//func GetResourcesByOrg(orgName string) (*environment.Context, fabric.ResourceManagement, error) {
-//	var err error
-//	var config *environment.Config
-//	config = environment.NewConfig()
-//
-//	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
-//	if err != nil {
-//		return nil, nil, err
-//	}
-//
-//	factory, err := fabric.NewFactory(config)
-//	if err != nil {
-//		return nil, nil, err
-//	}
-//
-//	resourceManagement, err := factory.ResourceManagement()
-//	if err != nil {
-//		return nil, nil, err
-//	}
-//
-//	context := config.Contexts[orgName]
-//
-//	return context, resourceManagement, nil
-//}
-
-// func LoadFabricSDK() (*fabsdk.FabricSDK, error) {
-// configPath := filepath.Join("configs", "networks", "harisato.yaml")
-// backend, err := config.FromFile(configPath)()
-// if err != nil {
-// 	return nil, err
-// }
-
-// configProvider := func() ([]core.ConfigBackend, error) {
-// 	return backend, nil
-// }
-
-// sdk, err := fabsdk.New(configProvider)
-// if err != nil {
-// 	return nil, err
-// }
-// }
-
-func LoadFabricSDK() (fabric.SDK, error) {
+func InitConfig() (*environment.Config, error) {
 	var err error
 	var config *environment.Config
 	config = environment.NewConfig()
@@ -102,7 +58,46 @@ func LoadFabricSDK() (fabric.SDK, error) {
 		return nil, err
 	}
 
-	factory, err := fabric.NewFactory(config)
+	return config, nil
+}
+
+func GetResourcesByOrg(orgName string) (*environment.Context, fabric.ResourceManagement, error) {
+	var err error
+	var config *environment.Config
+	config = environment.NewConfig()
+
+	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
+	if err != nil {
+		return nil, nil, err
+	}
+
+	factory, err := fabric.NewFactory(config, orgName)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resourceManagement, err := factory.ResourceManagement()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	context, err := config.GetContextByName(orgName)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return context, resourceManagement, nil
+}
+
+func LoadFabricSDK() (fabric.SDK, error) {
+	var err error
+
+	config, err := InitConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	factory, err := fabric.NewFactoryDefault(config)
 	if err != nil {
 		return nil, err
 	}
