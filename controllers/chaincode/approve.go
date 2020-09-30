@@ -13,6 +13,7 @@ import (
 )
 
 type ApproveRequest struct {
+	OrgName             string `json:"orgName"`
 	ChaincodeId         string `json:"chaincodeId"`
 	ChaincodeVersion    string `json:"chaincodeVersion"`
 	PackageID           string `json:"packageId"`

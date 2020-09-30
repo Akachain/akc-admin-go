@@ -11,10 +11,11 @@ import (
 )
 
 type UserRequest struct {
-	OrgName    string                `json:"orgName"`
-	UserName   string                `json:"userName"`
-	Type       string                `json:"type"`
-	Attributes []mspClient.Attribute `json:"attrs"`
+	OrgName     string                `json:"orgName"`
+	UserName    string                `json:"userName"`
+	Type        string                `json:"type"`
+	Affiliation string                `json:"affiliation"`
+	Attributes  []mspClient.Attribute `json:"attrs"`
 }
 
 func RegisterUser(c *gin.Context) {
@@ -30,12 +31,16 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
+	if regRequest.Affiliation == "" {
+		regRequest.Affiliation = regRequest.OrgName
+	}
+
 	ctxProvider := sdk.Context()
 	msp, _ := mspClient.New(ctxProvider)
 	enrollSecret, err := msp.Register(&mspClient.RegistrationRequest{
 		Name:        regRequest.UserName,
 		Type:        regRequest.Type,
-		Affiliation: regRequest.OrgName,
+		Affiliation: regRequest.Affiliation,
 		Attributes:  regRequest.Attributes,
 	})
 

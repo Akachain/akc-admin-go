@@ -11,7 +11,7 @@ import (
 )
 
 type ChannelRequest struct {
-	Orgname       string `json:"orgName"`
+	OrgName       string `json:"orgName"`
 	ChannelName   string `json:"channelName"`
 	ChannelConfig string `json:"channelConfig"`
 }
