@@ -44,7 +44,7 @@ curl --location --request POST 'http://localhost:4001/api/msp/registerUser' \
 
 ##### Revoke User
 ```bash
-curl --location --request POST 'http://localhost:4001/api/msp/registerUser' \
+curl --location --request POST 'http://localhost:4001/api/msp/revokeUser' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "orgName": 	"Org1",
@@ -59,8 +59,8 @@ curl --location --request POST 'http://localhost:4001/api/channel/create' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "orgName": "Org1",
-	"channelName": "mychannel",
-	"channelConfig": "mychannel.tx"
+    "channelName": "mychannel",
+    "channelConfig": "mychannel.tx"
 }'
 ```
 
@@ -70,8 +70,8 @@ curl --location --request POST 'http://localhost:4001/api/channel/join' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "orgName": "Org1",
-	"channelName": "mychannel",
-	"peer": "peer0.example.com"
+    "channelName": "mychannel",
+    "peer": "peer0.example.com"
 }'
 ```
 
@@ -81,7 +81,7 @@ curl --location --request POST 'http://localhost:4001/api/channel/list' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "orgName": "Org1",
-	"peer": "peer0.example.com"
+    "peer": "peer0.example.com"
 }'
 ```
 

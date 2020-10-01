@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/Akachain/akc-admin-go/controllers/chaincode"
 	"github.com/Akachain/akc-admin-go/controllers/channel"
+	"github.com/Akachain/akc-admin-go/controllers/ledger"
 	"github.com/Akachain/akc-admin-go/controllers/msp"
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +23,7 @@ func setupRouter() *gin.Engine {
 		client.POST("/msp/registerUser", msp.RegisterUser)
 		client.POST("/msp/revokeUser", msp.RevokeUser)
 		client.POST("/msp/enrollUser", msp.EnrollUser)
+		client.POST("/ledger/queryBlock", ledger.QueryBlock)
 		//client.POST("/test/testUseContext", test.TestUseContext)
 	}
 

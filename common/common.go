@@ -63,10 +63,8 @@ func InitConfig() (*environment.Config, error) {
 
 func GetResourcesByOrg(orgName string) (*environment.Context, fabric.ResourceManagement, error) {
 	var err error
-	var config *environment.Config
-	config = environment.NewConfig()
 
-	err = config.LoadFromFile(filepath.Join("configs", "config.yaml"))
+	config, err := InitConfig()
 	if err != nil {
 		return nil, nil, err
 	}
@@ -87,6 +85,27 @@ func GetResourcesByOrg(orgName string) (*environment.Context, fabric.ResourceMan
 	}
 
 	return context, resourceManagement, nil
+}
+
+func LoadFabricLedger(orgName string) (fabric.Ledger, error) {
+	var err error
+
+	config, err := InitConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	factory, err := fabric.NewFactory(config, orgName)
+	if err != nil {
+		return nil, err
+	}
+
+	ledger, err := factory.Ledger()
+	if err != nil {
+		return nil, err
+	}
+
+	return ledger, nil
 }
 
 func LoadFabricSDK() (fabric.SDK, error) {
