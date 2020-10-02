@@ -1,0 +1,27 @@
+networks:
+  example1:
+    path: <YOUR_NETWORK_CONNECTION_PATH>
+  example2:
+    path: <YOUR_NETWORK_CONNECTION_PATH>
+contexts:
+  example1:
+    network: example1
+    organization: example1
+    user: admin-example1
+    channel: mychannel
+    orderers:
+    - orderer0-orderer.example1
+    peers:
+    - peer0-example1.example1
+    - peer1-example1.example1
+  example2:
+    network: example2
+    organization: example2
+    user: admin-example2
+    channel: mychannel
+    orderers:
+      - orderer0-orderer.example1
+    peers:
+      - peer0-example2.example2
+      - peer1-example2.example2
+current-context: example1
