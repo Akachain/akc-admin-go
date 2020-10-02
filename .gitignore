@@ -3,6 +3,7 @@ wallet
 .idea/*
 configs/connection-*
 configs/network*
+configs/config.yaml
 configs/*artifacts*
 keystore
 artifacts
