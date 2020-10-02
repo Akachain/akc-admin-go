@@ -1,5 +1,7 @@
 package constants
 
 const (
-	BY_BLOCK_NUMBER = "BY_BLOCK_NUMBER"
+	ByBlockNumber = "BY_BLOCK_NUMBER"
+	ByTxID = "BY_TX_ID"
+	ByBlockHash = "BY_BLOCK_HASH"
 )

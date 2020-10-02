@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/gin-gonic/gin v1.6.3
+	github.com/golang/protobuf v1.3.3
 	github.com/google/go-cmp v0.4.1 // indirect
 	github.com/hyperledger/fabric-cli v0.0.0-20200826134644-6d600d8656dd
 	github.com/hyperledger/fabric-protos-go v0.0.0-20200707132912-fee30f3ccd23

@@ -10,3 +10,4 @@ artifacts
 .idea
 .DS_Store
 controllers/test
+tmp
