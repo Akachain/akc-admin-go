@@ -10,10 +10,10 @@ contexts:
     user: admin-example1
     channel: mychannel
     orderers:
-      - orderer0-orderer.example1
+    - orderer0-orderer.example1
     peers:
-      - peer0-example1.example1
-      - peer1-example1.example1
+    - peer0-example1.example1
+    - peer1-example1.example1
   example2:
     network: example2
     organization: example2
