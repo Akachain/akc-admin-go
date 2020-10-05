@@ -34,7 +34,7 @@ func ApproveChaincode(c *gin.Context) {
 	c.BindJSON(&approveRequest)
 
 	// Load client context
-	context, resourceManagement, err := common.GetResources()
+	context, resourceManagement, err := common.GetResourcesByOrg(approveRequest.OrgName)
 	if err != nil {
 		c.JSON(200, common.RequestResponse(false, err.Error()))
 		return

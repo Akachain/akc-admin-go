@@ -35,7 +35,7 @@ func InstallChaincode(c *gin.Context) {
 	c.BindJSON(&chaincodeRequest)
 
 	// Load client context
-	context, resourceManagement, err := common.GetResources()
+	context, resourceManagement, err := common.GetResourcesByOrg(chaincodeRequest.OrgName)
 
 	projectPath, _ := os.Getwd()
 	adminGoPath := filepath.Join(projectPath, "artifacts")
